@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: friend-birthday-calendar-api
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      path-mapping:
+        health: /v1/health
+  metrics:
+    tags:
+      component: ${spring.application.name}
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+server:
+  shutdown: graceful
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: friendDB
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  data:
+    mongodb:
+      #TODO: Update to PROD URI
+      uri: mongodb://localhost:27017
+      database: friendDB
